@@ -1,4 +1,4 @@
-// File: api/evaluate-business.js
+// AI Business Evaluation Serverless Function
 
 export default async function handler(req, res) {
   const { business_name, business_website, industry_type, business_location, monthly_revenue, revenue_trend, active_customers, customer_acquisition, current_challenge, employee_count, cash_flow, marketing_investment, primary_goal, additional_notes } = req.body;
