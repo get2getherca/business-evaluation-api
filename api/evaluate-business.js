@@ -1,7 +1,26 @@
 // AI Business Evaluation Serverless Function
 
 export default async function handler(req, res) {
-  const { business_name, business_website, industry_type, business_location, monthly_revenue, revenue_trend, active_customers, customer_acquisition, current_challenge, employee_count, cash_flow, marketing_investment, primary_goal, additional_notes } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Only POST requests are allowed' });
+  }
+
+  const {
+    business_name,
+    business_website,
+    industry_type,
+    business_location,
+    monthly_revenue,
+    revenue_trend,
+    active_customers,
+    customer_acquisition,
+    current_challenge,
+    employee_count,
+    cash_flow,
+    marketing_investment,
+    primary_goal,
+    additional_notes
+  } = req.body;
 
   const prompt = `
 You are an experienced business analyst and consultant.
@@ -39,17 +58,17 @@ Use a friendly, supportive, professional tone. Limit to 300 words.
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${openaiApiKey}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: "gpt-4",
+      model: 'gpt-4',
       messages: [
-        { role: "system", content: "You are an expert business consultant." },
-        { role: "user", content: prompt }
+        { role: 'system', content: 'You are an expert business consultant.' },
+        { role: 'user', content: prompt }
       ],
       temperature: 0.4,
-      max_tokens: 500,
-    }),
+      max_tokens: 500
+    })
   });
 
   const data = await response.json();
